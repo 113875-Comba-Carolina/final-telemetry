@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class TelemetryDto {
     private String hostname;
     private Double cpuUsage;
+    private String ip;
     private Double hostDiskFree;
     private String microphoneState;
     private Boolean screenCaptureAllowed;

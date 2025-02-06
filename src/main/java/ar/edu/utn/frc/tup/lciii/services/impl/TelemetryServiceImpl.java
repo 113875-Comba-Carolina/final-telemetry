@@ -3,13 +3,37 @@ package ar.edu.utn.frc.tup.lciii.services.impl;
 import org.springframework.stereotype.Service;
 
 import ar.edu.utn.frc.tup.lciii.dtos.common.request.TelemetryDto;
+import ar.edu.utn.frc.tup.lciii.model.Device;
+import ar.edu.utn.frc.tup.lciii.model.Telemetry;
+import ar.edu.utn.frc.tup.lciii.repositories.TelemetryRepository;
+import ar.edu.utn.frc.tup.lciii.services.DeviceService;
 import ar.edu.utn.frc.tup.lciii.services.TelemetryService;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class TelemetryServiceImpl implements TelemetryService {
 
+    private final DeviceService deviceService;
+
+    private final TelemetryRepository telemetryRepository;
+
     @Override
-    public TelemetryDto saveTelemetry(TelemetryDto telemetryDto) {
-        return null;
+    public Object saveTelemetry(TelemetryDto telemetryDto) {
+        Device device = deviceService.getDeviceByName(telemetryDto.getHostname());
+        if(device != null){
+            throw new RuntimeException("Device not found");
+        }
+        Telemetry telemetry = new Telemetry();
+        telemetry.setCpuUsage(telemetryDto.getCpuUsage());
+        telemetry.setDevice(device);
+        telemetry.setDataDate(telemetryDto.getDataDate());
+        telemetry.setAudioCaptureAllowed(telemetryDto.getAudioCaptureAllowed());
+        telemetry.setScreenCaptureAllowed(telemetryDto.getScreenCaptureAllowed());
+        telemetry.setMicrophoneState(telemetryDto.getMicrophoneState());
+        telemetry.setIp(telemetryDto.getIp());
+        telemetry.setHostname(telemetryDto.getHostname());
+
+        return telemetryRepository.save(telemetry);
     }
 }
