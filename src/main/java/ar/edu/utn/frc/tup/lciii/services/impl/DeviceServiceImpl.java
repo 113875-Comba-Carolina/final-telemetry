@@ -1,6 +1,7 @@
 package ar.edu.utn.frc.tup.lciii.services.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -37,6 +38,21 @@ public class DeviceServiceImpl implements DeviceService {
         device2.setType(device.getType());
 
         return deviceRepository.save(device2);
+    }
+
+    @Override
+    public List<DeviceDto> getDevicesByType(String type) {
+        List<Device> devices = deviceRepository.findByType(type);
+        List<DeviceDto> deviceDtos = new ArrayList<>();
+        for (Device device : devices) {
+            DeviceDto deviceIdDto = new DeviceDto();
+            deviceIdDto.setHostname(device.getHostName());
+            deviceIdDto.setMacAdress(device.getMacAdress());
+            deviceIdDto.setOs(device.getOs());
+            deviceIdDto.setType(device.getType());
+            deviceDtos.add(deviceIdDto);
+        }
+        return deviceDtos;
     }
 
 }

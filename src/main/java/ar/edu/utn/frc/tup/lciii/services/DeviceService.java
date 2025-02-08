@@ -12,4 +12,5 @@ public interface DeviceService {
     Device getDeviceByName(String name);
     List<Device> getAllDevices();
     Device postDevice(DeviceDto device);
+    List<DeviceDto> getDevicesByType(String type);
 }

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, String> {
     Device findByHostName(String hostName);
+    List<Device> findByType(String type);
 }
