@@ -5,8 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import ar.edu.utn.frc.tup.lciii.model.Device;
 
+import java.util.List;
+
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, String> {
     Device findByHostName(String hostName);
-    
 }

@@ -19,5 +19,8 @@ public class TelemetryController {
         return new ResponseEntity<>(telemetryService.saveTelemetry(telemetryDto), HttpStatus.CREATED);
     }
 
-
+    @GetMapping("/telemetry")
+    public ResponseEntity<?> getTelemetries() {
+        return new ResponseEntity<>(telemetryService.getAllTelemetries(), HttpStatus.OK);
+    }
 }

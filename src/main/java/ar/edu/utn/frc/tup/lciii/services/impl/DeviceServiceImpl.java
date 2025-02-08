@@ -1,6 +1,7 @@
 package ar.edu.utn.frc.tup.lciii.services.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public Device getDeviceByName(String name) {
         return deviceRepository.findByHostName(name);
+    }
+
+    @Override
+    public List<Device> getAllDevices() {
+        return deviceRepository.findAll();
     }
 
     @Override
