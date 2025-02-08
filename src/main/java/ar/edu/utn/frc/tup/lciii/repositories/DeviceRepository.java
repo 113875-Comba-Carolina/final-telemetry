@@ -7,5 +7,6 @@ import ar.edu.utn.frc.tup.lciii.model.Device;
 
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, String> {
-    Device findByName(String name);
+    Device findByHostName(String hostName);
+    
 }
