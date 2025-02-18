@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeviceDto {
-    private String hostname;
-    private String type;
+    private String hostName;
     private String os;
     private String macAdress;
+    private String type;
 }

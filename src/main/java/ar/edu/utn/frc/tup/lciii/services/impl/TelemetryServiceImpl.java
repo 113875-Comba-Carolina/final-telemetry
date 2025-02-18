@@ -11,6 +11,7 @@ import ar.edu.utn.frc.tup.lciii.services.DeviceService;
 import ar.edu.utn.frc.tup.lciii.services.TelemetryService;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,40 +25,35 @@ public class TelemetryServiceImpl implements TelemetryService {
     private final TelemetryRepository telemetryRepository;
 
     @Override
-    public Object saveTelemetry(TelemetryDto telemetryDto) {
-        Device device = deviceService.getDeviceByName(telemetryDto.getHostname());
-        if(device == null){
+    public TelemetryDtoResponse saveTelemetry(TelemetryDto telemetryDto) {
+        Device device = deviceService.getDeviceByHostName(telemetryDto.getHostName());
+        Telemetry telemetry = new Telemetry();
+        if(device != null) {
+            telemetry.setDevice(device);
+        } else {
             throw new RuntimeException("Device not found");
         }
-        Telemetry telemetry = new Telemetry();
-        telemetry.setCpuUsage(telemetryDto.getCpuUsage());
-        telemetry.setDevice(device);
-        telemetry.setDataDate(telemetryDto.getDataDate());
-        telemetry.setAudioCaptureAllowed(telemetryDto.getAudioCaptureAllowed());
-        telemetry.setScreenCaptureAllowed(telemetryDto.getScreenCaptureAllowed());
-        telemetry.setMicrophoneState(telemetryDto.getMicrophoneState());
         telemetry.setIp(telemetryDto.getIp());
-        telemetry.setHostname(telemetryDto.getHostname());
-
-        return telemetryRepository.save(telemetry);
+        telemetry.setDataDate(LocalDateTime.now());
+        telemetry.setCpuUsage(telemetryDto.getHostDiskFree());
+        telemetry.setMicrophoneState(telemetryDto.getMicrophoneState());
+        telemetry.setScreenCaptureAllowed(telemetryDto.getScreenCaptureAllowed());
+        telemetry.setAudioCaptureAllowed(telemetryDto.getAudioCaptureAllowed());
+        telemetryRepository.save(telemetry);
+        return new TelemetryDtoResponse(telemetry.getDevice().getHostName(), telemetry.getIp(), telemetry.getCpuUsage(),
+                telemetry.getMicrophoneState(), telemetry.getScreenCaptureAllowed(), telemetry.getAudioCaptureAllowed(),
+                telemetry.getDataDate());
     }
 
     @Override
     public List<TelemetryDtoResponse> getAllTelemetries() {
         List<Telemetry> telemetries = telemetryRepository.findAll();
-        List<TelemetryDtoResponse> responses = new ArrayList<>();
-
-        for (Telemetry telemetry : telemetries) {
-            TelemetryDtoResponse telemetryDtoResponse = new TelemetryDtoResponse();
-            telemetryDtoResponse.setIp(telemetry.getIp());
-            telemetryDtoResponse.setDataDate(telemetry.getDataDate());
-            telemetryDtoResponse.setHostDiskFree(telemetry.getCpuUsage());
-            telemetryDtoResponse.setMicrophoneState(telemetry.getMicrophoneState());
-            telemetryDtoResponse.setScreenCaptureAllowed(telemetry.getScreenCaptureAllowed());
-            telemetryDtoResponse.setAudioCaptureAllowed(telemetry.getAudioCaptureAllowed());
-            telemetryDtoResponse.setHostname(telemetry.getHostname());
-            responses.add(telemetryDtoResponse);
+        List<TelemetryDtoResponse> telemetryDtoResponses = new ArrayList<>();
+        for(Telemetry telemetry : telemetries) {
+            telemetryDtoResponses.add(new TelemetryDtoResponse(telemetry.getDevice().getHostName(), telemetry.getIp(),
+                    telemetry.getCpuUsage(), telemetry.getMicrophoneState(), telemetry.getScreenCaptureAllowed(),
+                    telemetry.getAudioCaptureAllowed(), telemetry.getDataDate()));
         }
-        return responses;
+        return telemetryDtoResponses;
     }
 }

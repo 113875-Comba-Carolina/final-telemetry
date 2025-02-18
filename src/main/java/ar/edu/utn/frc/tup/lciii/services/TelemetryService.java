@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface TelemetryService {
 
-    Object saveTelemetry(TelemetryDto telemetryDto);
+    TelemetryDtoResponse saveTelemetry(TelemetryDto telemetryDto);
 
     List<TelemetryDtoResponse> getAllTelemetries();
 }

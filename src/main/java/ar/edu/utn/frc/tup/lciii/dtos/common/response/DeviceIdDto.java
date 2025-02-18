@@ -10,13 +10,11 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TelemetryDtoResponse {
+public class DeviceIdDto {
     private String hostName;
-    private String ip;
-    private Double hostDiskFree;
-    private String microphoneState;
-    private Boolean screenCaptureAllowed;
-    private Boolean audioCaptureAllowed;
+    private String os;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataDate;
+    private LocalDateTime createdDate;
+    private String macAdress;
+    private String type;
 }

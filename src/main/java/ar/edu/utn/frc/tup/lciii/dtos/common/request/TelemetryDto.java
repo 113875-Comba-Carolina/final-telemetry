@@ -11,13 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TelemetryDto {
-    private String hostname;
-    private Double cpuUsage;
+    private String hostName;
     private String ip;
     private Double hostDiskFree;
     private String microphoneState;
     private Boolean screenCaptureAllowed;
     private Boolean audioCaptureAllowed;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataDate;
 }

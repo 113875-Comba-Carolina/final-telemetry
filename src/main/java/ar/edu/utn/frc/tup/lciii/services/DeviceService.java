@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.services;
 
+import ar.edu.utn.frc.tup.lciii.dtos.common.response.DeviceIdDto;
 import org.springframework.stereotype.Service;
 
 import ar.edu.utn.frc.tup.lciii.dtos.common.request.DeviceDto;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface DeviceService {
-    Device getDeviceByName(String name);
+    Device getDeviceByHostName(String name);
     List<Device> getAllDevices();
     Device postDevice(DeviceDto device);
     List<DeviceDto> getDevicesByType(String type);

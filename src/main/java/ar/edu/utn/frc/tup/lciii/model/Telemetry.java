@@ -50,6 +50,4 @@ public class Telemetry {
     private Boolean screenCaptureAllowed;
 
     private Boolean audioCaptureAllowed;
-
-    private String hostname;
 }
